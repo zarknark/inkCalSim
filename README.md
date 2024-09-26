@@ -1,18 +1,50 @@
-#inkCalSim: Life-Sim Game Framework powered by Ink
+# React + TypeScript + Vite
 
-Goal: create a light, easy way to create text-only, planning-centric Life Sims using ink scripts.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-- Implement the build process. Someone should be able to put their ink source file (not the compiled JSON) in the public/ folder, run npm run package, and get a nice zipped HTML package in dist/, ready for itch.io. This process should also try to extract metadata from the ink source file and embed it into the index.html file.
+Currently, two official plugins are available:
 
-- ~~draw the rest of the owl~~ Implement the barebones engine. This should be a text interface friendly to both mobile and desktop displays, with smooth text transitions, scrolling, and choice menus. This should also be implemented entirely in vanilla JS, HTML, and CSS.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- Note: shamelessly rip off the disco elysium text column.
+## Expanding the ESLint configuration
 
-- Implement special syntax support that would allow things like:
-    - pop-up flavor text for choices
-    - twine-esque hyperlink text expansion
-    - etc.
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Implement quirky save system. While browser cookies are fine, what if we let players download a data-embedded image file?
+- Configure the top-level `parserOptions` property like this:
 
-- Polish the interface.
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
+
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
